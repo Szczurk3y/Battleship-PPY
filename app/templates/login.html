@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Battleship {% endblock %}
+{% block head %} 
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>Battleship Game</h1>
+    <p>Logowanie</p>
+    <form action="/home" method="get">
+        <label>Login</label>
+        <input name="login" type="text" required>
+        <label>Hasło</label>
+        <input name="password" type="password" required>
+        <input type="submit" value="Zaloguj się">
+    </form>
+        <a href="{{url_for('register')}}">Nie masz konta? Zarejestruj się.</a>
+{% endblock %}

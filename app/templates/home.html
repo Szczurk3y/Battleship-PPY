@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %} Battleship {% endblock %}
+{% block head %} 
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>Battleship Game</h1>
+    <p>Strona główna</p>
+    <a href="{{url_for('login')}}">Wyloguj się.</a>
+{% endblock %}
