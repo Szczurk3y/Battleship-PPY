@@ -18,3 +18,4 @@ Zrobione:
 - szyfrowanie hasła
 - sesje użytkowników
 - komunikaty flash
+- Menu (Strona główna, statystyki, ustawienia, wylogowania)

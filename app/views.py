@@ -25,11 +25,6 @@ def login_post():
             flash('Niepoprawne hasło')
             return redirect("/login")
 
-@app.route('/logout-user', methods=['POST', 'GET'])
-def logout_user():
-    session.pop('user', None)
-    return redirect("/login")
-
 @app.get("/register")
 def register_get():
     return render_template("register.html")
@@ -59,3 +54,27 @@ def home():
         return render_template("home.html")
     else:
         return redirect("/login")
+
+@app.get("/home/statistics")
+def statistics():
+    user_id = None
+    if 'user' in session:
+        user_id = session['user']
+        return render_template("statistics.html")
+    else:
+        return redirect("/login")
+    
+@app.get("/home/settings")
+def settings():
+    user_id = None
+    if 'user' in session:
+        user_id = session['user']
+        return render_template("settings.html")
+    else:
+        return redirect("/login")
+
+@app.route('/logout-user', methods=['POST', 'GET'])
+def logout_user():
+    session.pop('user', None)
+    return redirect("/login")
+    

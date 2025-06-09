@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} Battleship {% endblock %}
+{% block head %} 
+    <link rel="stylesheet" href="{{url_for("static", filename="style_home.css")}}" />
+{% endblock %}
+{% block content %}
+    <div id="header">
+        <h1>Battleship Game</h1>
+        <ul>
+            <li><a href="{{url_for('home')}}">Strona główna</a></li>
+            <li><a href="{{url_for('statistics')}}">Statystyki</a></li>
+            <li><a href="{{url_for('settings')}}">Ustawienia</a></li>
+            <li><a href="{{url_for('logout_user')}}">Wyloguj się</a></li>
+        </ul>
+    </div>
+{% endblock %}
