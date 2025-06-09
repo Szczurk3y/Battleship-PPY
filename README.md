@@ -1,5 +1,7 @@
 python3 run.py
 
+Flask, Flask-SQLAlchemy, Werkzeug (szyfrowanie)
+
 Gra w Statki
 - Logowanie / rejestracja
 - Interfejs GUI
