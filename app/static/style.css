@@ -82,3 +82,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+#error_label {
+  color: red;
+}

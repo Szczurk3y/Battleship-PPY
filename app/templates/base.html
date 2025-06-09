@@ -6,6 +6,11 @@
         <link rel="stylesheet" href="{{url_for("static", filename="style.css")}}" />
         <title>{%block title %}{% endblock %}</title>
         {% endblock %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <label id="error_label">{{messages[0]}}</label>
+        {% endif %}
+        {% endwith %}
     </head>
     <body>
         <div id="content">{% block content %}{% endblock %}</div>

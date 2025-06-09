@@ -14,3 +14,5 @@ Zrobione:
 - Logowanie/Rejestracja (+ interfejs do tego)
 - Baza danych
 - szyfrowanie hasła
+- sesje użytkowników
+- komunikaty flash
