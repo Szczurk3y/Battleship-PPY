@@ -5,5 +5,7 @@
 {% endblock %}
 {% block content %}
     {{ super() }}
-    <h1>Strona główna</h1
+    <form action="/home/game" method="get">
+        <button type="submit">Zacznij nową gre</button>    
+    </form>
 {% endblock %}

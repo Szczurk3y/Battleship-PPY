@@ -1,0 +1,60 @@
+{% extends "home_base.html" %}
+{% block title %} Battleship {% endblock %}
+
+{% block head %} 
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for("static", filename="style_game.css")}}" />
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <div class="board-container">
+        <!-- Plansza gracza -->
+        <div class="board">
+            <h2>Twoja plansza</h2>
+            <table id="player-board">
+                {% for row in board %}
+                    <tr>
+                        {% for cell in row %}
+                            <td></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="board">
+            <h2>Plansza bota</h2>
+            <table id="bot-board">
+                {% for row in board %}
+                    <tr>
+                        {% for cell in row %}
+                            <td></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="button-container">
+        <form action="/home/game" method="get">
+                <button type="submit">Zapisz ustawienia i zacznij grę</button>    
+        </form>
+    </div>
+    
+    <script>
+        // Klikanie komórek planszy bota
+        document.querySelectorAll("#bot-board td").forEach(function(cell) {
+            cell.addEventListener("click", function() {
+                cell.classList.add("hit-bot");
+            });
+        });
+
+        // Kliknięcie w planszę gracza (zielony)
+        document.querySelectorAll("#player-board td").forEach(function(cell) {
+            cell.addEventListener("click", function() {
+                cell.classList.add("hit-player");
+            });
+    });
+    </script>
+
+{% endblock %}

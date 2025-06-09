@@ -53,3 +53,19 @@ body {
 #header li a:hover {
     background-color: #e0e0e0;
 }
+
+button {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 0.8em;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+

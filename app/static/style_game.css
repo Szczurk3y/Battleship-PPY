@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.board-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 80px;
+    padding: 40px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.board {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+td {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #333;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #e0f7fa;
+    transition: background-color 0.2s;
+}
+
+td:hover {
+    background-color: #b2ebf2;
+    cursor: pointer;
+}
+
+td.hit-bot {
+    background-color: red !important;
+}
+
+td.hit-player {
+    background-color: green !important;
+}
+h2 {
+    margin: 0;
+    padding: 10px 0;
+}

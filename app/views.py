@@ -48,7 +48,6 @@ def register_post():
 
 @app.get("/home")
 def home():
-    user_id = None
     if 'user' in session:
         user_id = session['user']
         return render_template("home.html")
@@ -57,7 +56,6 @@ def home():
 
 @app.get("/home/statistics")
 def statistics():
-    user_id = None
     if 'user' in session:
         user_id = session['user']
         return render_template("statistics.html")
@@ -66,7 +64,6 @@ def statistics():
     
 @app.get("/home/settings")
 def settings():
-    user_id = None
     if 'user' in session:
         user_id = session['user']
         return render_template("settings.html")
@@ -78,3 +75,12 @@ def logout_user():
     session.pop('user', None)
     return redirect("/login")
     
+@app.get('/home/game')
+def game():
+    if 'user' in session:
+        user_id = session['user']
+        size = 10
+        board = [["" for _ in range(size)] for _ in range(size)]
+        return render_template("game.html", board=board)
+    else:
+        return redirect("/login")
