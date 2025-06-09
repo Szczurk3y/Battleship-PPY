@@ -7,54 +7,43 @@
 {% endblock %}
 {% block content %}
     {{ super() }}
-    <div class="board-container">
-        <!-- Plansza gracza -->
-        <div class="board">
-            <h2>Twoja plansza</h2>
-            <table id="player-board">
-                {% for row in board %}
-                    <tr>
-                        {% for cell in row %}
-                            <td></td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+    <h1>Plansza przeciwnika</h1>
 
-        <div class="board">
-            <h2>Plansza bota</h2>
-            <table id="bot-board">
-                {% for row in board %}
-                    <tr>
-                        {% for cell in row %}
-                            <td></td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
-    <div class="button-container">
-        <form action="/home/game" method="get">
-                <button type="submit">Zapisz ustawienia i zacznij grę</button>    
-        </form>
-    </div>
-    
+    <table id="bot-board">
+        {% for y in range(10) %}
+        <tr>
+            {% for x in range(10) %}
+            <td data-x="{{ x }}" data-y="{{ y }}"
+                {% if (x, y) in shots %} class="clicked" {% endif %}></td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
     <script>
-        // Klikanie komórek planszy bota
-        document.querySelectorAll("#bot-board td").forEach(function(cell) {
-            cell.addEventListener("click", function() {
-                cell.classList.add("hit-bot");
+        document.querySelectorAll("#bot-board td").forEach(cell => {
+            cell.addEventListener("click", () => {
+                if (cell.classList.contains("clicked")) return;
+
+                const x = cell.dataset.x;
+                const y = cell.dataset.y;
+
+                fetch("/home/game/fire", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ x: x, y: y })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    cell.classList.add("clicked");
+                    if (data.hit) {
+                        cell.classList.add("hit");
+                    } else {
+                        cell.classList.add("miss");
+                    }
+                });
             });
         });
-
-        // Kliknięcie w planszę gracza (zielony)
-        document.querySelectorAll("#player-board td").forEach(function(cell) {
-            cell.addEventListener("click", function() {
-                cell.classList.add("hit-player");
-            });
-    });
     </script>
 
 {% endblock %}

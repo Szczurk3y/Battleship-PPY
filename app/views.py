@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, request, redirect, session, flash
+from flask import render_template, request, redirect, session, flash, jsonify
 from app.models import User
 
 @app.errorhandler(404)
@@ -75,12 +75,14 @@ def logout_user():
     session.pop('user', None)
     return redirect("/login")
     
-@app.get('/home/game')
-def game():
+@app.route('/home/game/planning', methods=['GET', 'POST'])
+def game_planning():
     if 'user' in session:
-        user_id = session['user']
-        size = 10
-        board = [["" for _ in range(size)] for _ in range(size)]
-        return render_template("game.html", board=board)
+        if request.method == "POST":
+            ships = request.json.get("ships")
+            session["player_ships"] = ships
+            # TODO: generate bot ships here
+            return jsonify(success=True)
+        return render_template("game_planning.html")
     else:
         return redirect("/login")

@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 
 app.config.from_object('config')
 
-from app import views
+from app import views, game
 from app.models import User
 
 with app.app_context():
