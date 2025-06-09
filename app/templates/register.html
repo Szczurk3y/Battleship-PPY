@@ -9,11 +9,11 @@
     <form action="/register" method="post">
         <label>Login</label>
         <input name="login" type="text" required>
-        <label>Hasło</label>
-        <input name="password" type="password" required>
         <label>Email</label>
         <input name="email" type="email" required>
+        <label>Hasło</label>
+        <input name="password" type="password" required>
         <input type="submit", value="Zarejestruj się">
     </form>
-        <a href="{{url_for('login')}}">Masz już konto? Zaloguj się.</a>
+        <a href="{{url_for('login_get')}}">Masz już konto? Zaloguj się.</a>
 {% endblock %}

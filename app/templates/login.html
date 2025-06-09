@@ -6,12 +6,12 @@
 {% block content %}
     <h1>Battleship Game</h1>
     <p>Logowanie</p>
-    <form action="/home" method="get">
+    <form action="/login" method="post">
         <label>Login</label>
         <input name="login" type="text" required>
         <label>Hasło</label>
         <input name="password" type="password" required>
         <input type="submit" value="Zaloguj się">
     </form>
-        <a href="{{url_for('register')}}">Nie masz konta? Zarejestruj się.</a>
+        <a href="{{url_for('register_get')}}">Nie masz konta? Zarejestruj się.</a>
 {% endblock %}
