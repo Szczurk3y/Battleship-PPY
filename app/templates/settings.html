@@ -1,9 +1,28 @@
 {% extends "home_base.html" %}
-{% block title %} Battleship {% endblock %}
-{% block head %} 
+{% block title %} Battleship - Ustawienia {% endblock %}
+
+{% block head %}
     {{ super() }}
 {% endblock %}
+
 {% block content %}
     {{ super() }}
-    <h1>Ustawienia</h1
+    <h1>Ustawienia gry</h1>
+    <form action="/save-settings" method="post">
+        <label for="board_size">Rozmiar planszy:</label>
+        <select name="board_size" id="board_size">
+            <option value="8">8x8</option>
+            <option value="10" selected>10x10 (domyślny)</option>
+            <option value="12">12x12</option>
+        </select>
+
+        <label for="fleet">Skład floty:</label>
+        <select name="fleet" id="fleet">
+            <option value="3,2,2">Uproszczony (3,2,2)</option>
+            <option value="4,3,2,2" selected>Domyślny (4,3,2,2)</option>
+            <option value="5,4,3,2,2">Rozszerzony (5,4,3,2,2)</option>
+        </select>
+
+        <button type="submit">Zapisz ustawienia</button>
+    </form>
 {% endblock %}

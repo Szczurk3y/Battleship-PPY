@@ -1,21 +1,23 @@
+
 {% extends "home_base.html" %}
 {% block title %} Battleship {% endblock %}
 
-{% block head %} 
+{% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{url_for("static", filename="style_game.css")}}" />
 {% endblock %}
+
 {% block content %}
     {{ super() }}
+
     <div class="board-container">
-        <!-- Plansza gracza -->
         <div class="board">
             <h2>Twoja plansza</h2>
             <table id="player-board">
-                {% for row in board %}
+                {% for i in range(board|length) %}
                     <tr>
-                        {% for cell in row %}
-                            <td></td>
+                        {% for j in range(board[0]|length) %}
+                            <td data-x="{{i}}" data-y="{{j}}"></td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
@@ -25,36 +27,120 @@
         <div class="board">
             <h2>Plansza bota</h2>
             <table id="bot-board">
-                {% for row in board %}
+                {% for i in range(board|length) %}
                     <tr>
-                        {% for cell in row %}
-                            <td></td>
+                        {% for j in range(board[0]|length) %}
+                            <td data-x="{{i}}" data-y="{{j}}"></td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
+
     <div class="button-container">
-        <form action="/home/game" method="get">
-                <button type="submit">Zapisz ustawienia i zacznij grę</button>    
-        </form>
+        <button id="confirm-ship">Zatwierdź statek</button>
     </div>
-    
+
+    <p id="message"></p>
+
     <script>
-        // Klikanie komórek planszy bota
-        document.querySelectorAll("#bot-board td").forEach(function(cell) {
-            cell.addEventListener("click", function() {
-                cell.classList.add("hit-bot");
+        const selected = [];
+
+        async function initGame() {
+            await fetch('/api/init-game', { method: 'POST' });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initGame();
+
+            const selected = [];
+
+            document.querySelectorAll("#player-board td").forEach(cell => {
+                cell.addEventListener("click", function () {
+                    const x = parseInt(cell.dataset.x);
+                    const y = parseInt(cell.dataset.y);
+
+                    const index = selected.findIndex(c => c[0] === x && c[1] === y);
+                    if (index >= 0) {
+                        //odznaczanie pola statku
+                        selected.splice(index, 1);
+                        cell.classList.remove("hit-player");
+                    } else {
+                        //zaznaczanie pola statku
+                        selected.push([x, y]);
+                        cell.classList.add("hit-player");
+                    }
+                });
+            });
+
+
+            document.getElementById("confirm-ship").addEventListener("click", async () => {
+                const res = await fetch("/api/place-ship", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ coords: selected })
+                });
+
+                const data = await res.json();
+                const msg = document.getElementById("message");
+
+                if (data.success) {
+                    msg.textContent = data.remaining.length
+                        ? `Pozostało statków: ${data.remaining.length}`
+                        : 'Wszystkie statki ustawione! Możesz strzelać.';
+                    selected.length = 0;
+                } else {
+                    msg.textContent = data.error;
+                }
+            });
+
+            document.querySelectorAll("#bot-board td").forEach(cell => {
+                cell.addEventListener("click", async () => {
+                    const x = parseInt(cell.dataset.x);
+                    const y = parseInt(cell.dataset.y);
+                    if (cell.classList.contains("hit-bot") || cell.classList.contains("miss")) return;
+
+                    const res = await fetch("/api/shoot", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ x, y })
+                    });
+
+                    const data = await res.json();
+                    if (data.error) {
+                        document.getElementById("message").textContent = data.error;
+                        return;
+                    }
+
+                    if (data.player_hit) {
+                        cell.classList.add("hit-bot");
+                    } else {
+                        cell.classList.add("miss");
+                    }
+
+                    if (data.winner === "player") {
+                        alert("Wygrałeś!");
+                        location.reload();
+                        return;
+                    }
+
+                    const [bx, by] = data.bot_move;
+                    const target = document.querySelector(`#player-board td[data-x='${bx}'][data-y='${by}']`);
+                    if (target) {
+                        if (data.bot_hit) {
+                            target.classList.add("hit-player-ship");
+                        } else {
+                            target.classList.add("miss");
+                        }
+                    }
+
+                    if (data.winner === "bot") {
+                        alert("Przegrałeś! Bot zatopił Twoje statki.");
+                        location.reload();
+                    }
+                });
             });
         });
-
-        // Kliknięcie w planszę gracza (zielony)
-        document.querySelectorAll("#player-board td").forEach(function(cell) {
-            cell.addEventListener("click", function() {
-                cell.classList.add("hit-player");
-            });
-    });
     </script>
-
 {% endblock %}
