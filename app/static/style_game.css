@@ -48,6 +48,15 @@ td.hit-bot {
 td.hit-player {
     background-color: green !important;
 }
+
+td.miss {
+    background-color: #aaa !important;
+}
+td.hit-player-ship {
+    background-color: darkred !important;
+}
+
+
 h2 {
     margin: 0;
     padding: 10px 0;

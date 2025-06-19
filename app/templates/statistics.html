@@ -1,9 +1,18 @@
 {% extends "home_base.html" %}
-{% block title %} Battleship {% endblock %}
-{% block head %} 
+{% block title %} Statystyki {% endblock %}
+
+{% block head %}
     {{ super() }}
 {% endblock %}
+
 {% block content %}
     {{ super() }}
-    <h1>Statystyki</h1>
+    <h1>Twoje statystyki</h1>
+    <p>Wygrane gry: {{ games_won }}</p>
+    <p>Przegrane gry: {{ games_lost }}</p>
+
+    <form action="/export-pdf" method="get">
+    <button type="submit">Eksportuj do PDF</button>
+    </form>
+
 {% endblock %}
