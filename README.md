@@ -10,12 +10,6 @@ Gra w Statki
 - Dane graczy powinny być szyfrowane
 - Moduł ustawień/trybów gry
 - Eksport wyników do pdf
-- Losowanie kolejności gry
-
-Zrobione:
-- Logowanie/Rejestracja (+ interfejs do tego)
-- Baza danych
-- szyfrowanie hasła
-- sesje użytkowników
-- komunikaty flash
+- Sesje użytkowników
+- Komunikaty flash
 - Menu (Strona główna, statystyki, ustawienia, wylogowania)

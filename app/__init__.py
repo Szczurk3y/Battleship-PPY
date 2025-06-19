@@ -8,8 +8,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-app.config.from_object('config')
-
 from app import views
 from app.models import User
 
